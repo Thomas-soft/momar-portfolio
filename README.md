@@ -50,6 +50,8 @@ Exemples : l'Instagram se met dans `contact.instagram` (une adresse, ou une list
 `["https://…", "https://…"]` pour plusieurs comptes ; pareil pour `vimeo` et `youtube`),
 la description d'un projet dans `description`,
 sa catégorie dans `categorie` (`"filmmaking"`, `"editing"` ou `"color"`).
+Défilement fluide (Lenis, licence MIT, copié dans `site/assets/vendor/lenis.min.js`) : `smoothScroll: true`
+dans `content.js` ; `false` pour revenir au défilement normal du navigateur.
 
 ## Ajouter un projet
 

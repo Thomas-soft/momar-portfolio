@@ -157,9 +157,67 @@
     });
   }
   var scrollLocks = 0;
+  var lenis = null; // défilement fluide (Lenis), null quand il est éteint
   function lockScroll(on) {
     scrollLocks = Math.max(0, scrollLocks + (on ? 1 : -1));
     H.classList.toggle("no-scroll", scrollLocks > 0);
+    // Calque ouvert (page projet, visionneuse, comparateur agrandi, menu) : page figée.
+    if (lenis) { if (scrollLocks > 0) lenis.stop(); else lenis.start(); }
+  }
+
+  /* ------------------------------------------------------------------
+     Défilement fluide (Lenis, copié dans assets/vendor/, licence MIT)
+     Molette et pavé : défilement doux. Au doigt : défilement natif.
+     Éteint avec « réduire les animations » (même si la préférence change en cours
+     de visite) ou avec smoothScroll: false dans content.js.
+     ------------------------------------------------------------------ */
+  function initSmoothScroll() {
+    if (S.smoothScroll === false || typeof window.Lenis !== "function") return;
+    var mq = window.matchMedia ? window.matchMedia("(prefers-reduced-motion: reduce)") : null;
+    var raf = 0;
+    function loop(time) {
+      if (!lenis) return;
+      lenis.raf(time);
+      raf = requestAnimationFrame(loop);
+    }
+    function start() {
+      if (lenis || (mq && mq.matches)) return;
+      lenis = new window.Lenis({ lerp: 0.1, smoothWheel: true, syncTouch: false, wheelMultiplier: 1 });
+      if (scrollLocks > 0) lenis.stop();
+      raf = requestAnimationFrame(loop);
+    }
+    function stop() {
+      if (!lenis) return;
+      cancelAnimationFrame(raf);
+      lenis.destroy();
+      lenis = null;
+    }
+    start();
+    if (mq) {
+      var change = function () { if (mq.matches) stop(); else start(); };
+      if (mq.addEventListener) mq.addEventListener("change", change);
+      else if (mq.addListener) mq.addListener(change);
+    }
+
+    // Liens vers les sections (#realisations, #contact…) : défilement doux, menu déduit.
+    // Les adresses #/projet/<id> restent au routeur ; le lien d'évitement reste natif.
+    D.addEventListener("click", function (e) {
+      if (!lenis || e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+      var a = e.target.closest ? e.target.closest('a[href^="#"]') : null;
+      if (!a || a.classList.contains("skip")) return;
+      var href = a.getAttribute("href");
+      if (href.length < 2 || href.charAt(1) === "/") return;
+      var target = D.getElementById(decodeURIComponent(href.slice(1)));
+      if (!target) return;
+      e.preventDefault();
+      var offset = parseFloat(getComputedStyle(H).scrollPaddingTop) || 0; // hauteur du menu + marge
+      lenis.scrollTo(target, { offset: -offset });
+      if (location.hash !== href) { try { history.pushState(null, "", href); } catch (err) {} }
+      if (e.detail === 0) { // activé au clavier : le focus suit, comme un lien normal
+        if (!target.hasAttribute("tabindex")) { target.setAttribute("tabindex", "-1"); target.setAttribute("data-cible-lien", ""); }
+        target.focus({ preventScroll: true });
+      }
+    });
   }
 
   /* ------------------------------------------------------------------
@@ -1691,6 +1749,7 @@
   function init() {
     H.lang = lang;
     var y = $("#year"); if (y) y.textContent = String(new Date().getFullYear());
+    safe("smooth-scroll", initSmoothScroll);
     safe("nav", initNav);
     safe("hero", initHero);
     safe("showreel", initShowreel);

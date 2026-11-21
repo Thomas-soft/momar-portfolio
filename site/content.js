@@ -24,6 +24,9 @@ window.SITE = {
   logiciel: "DaVinci Resolve Studio",
   // Adresse publique du site (sert seulement au partage et au référencement).
   adresse: "https://thomas-soft.github.io/momar-portfolio/",
+  // Défilement fluide à la molette et au pavé (Lenis). false = défilement normal du navigateur.
+  // Toujours normal au doigt sur téléphone et avec « réduire les animations ».
+  smoothScroll: true,
 
   /* ---------- Accueil : vidéo de fond plein écran ---------- */
   accueil: {

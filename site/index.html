@@ -69,7 +69,7 @@
 </header>
 
 <!-- Menu plein écran (téléphone) -->
-<div class="mmenu" id="menu-mobile" hidden>
+<div class="mmenu" id="menu-mobile" data-lenis-prevent hidden>
   <nav aria-label="Navigation mobile" data-i18n-aria="navMobile">
     <a href="#realisations"><small>01</small><span data-i18n="navWork">Réalisations</span></a>
     <a href="#etalonnage"><small>02</small><span data-i18n="navColor">Étalonnage</span></a>
@@ -226,7 +226,7 @@
 </footer>
 
 <!-- Page projet (calque plein écran, adresse #/projet/<id>) -->
-<div class="project" id="project" role="dialog" aria-modal="true" aria-labelledby="project-title" hidden>
+<div class="project" id="project" role="dialog" aria-modal="true" aria-labelledby="project-title" data-lenis-prevent hidden>
   <div class="project__bar">
     <span class="project__count" id="project-count"></span>
     <button class="project__close" type="button" id="project-close"><span data-i18n="close">Fermer</span><i aria-hidden="true"></i></button>
@@ -245,7 +245,7 @@
 </div>
 
 <!-- Visionneuse de la galerie -->
-<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Galerie" data-i18n-aria="galleryLabel" hidden>
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Galerie" data-i18n-aria="galleryLabel" data-lenis-prevent hidden>
   <button class="lightbox__close" type="button" id="lb-close"><span data-i18n="close">Fermer</span><i aria-hidden="true"></i></button>
   <button class="lightbox__arrow lightbox__arrow--prev" type="button" id="lb-prev" data-i18n-aria="prev" aria-label="Précédent"></button>
   <figure class="lightbox__fig">
@@ -255,6 +255,7 @@
   <button class="lightbox__arrow lightbox__arrow--next" type="button" id="lb-next" data-i18n-aria="next" aria-label="Suivant"></button>
 </div>
 
+<script src="assets/vendor/lenis.min.js"></script>
 <script src="content.js"></script>
 <script src="assets/app.js"></script>
 </body>

@@ -44,6 +44,14 @@ html {
   html { scroll-behavior: smooth; }
 }
 html.no-scroll { overflow: hidden; }
+/* Défilement fluide : styles recommandés par Lenis 1.1.13 (assets/vendor/lenis.min.js) */
+html.lenis, html.lenis body { height: auto; }
+.lenis.lenis-smooth { scroll-behavior: auto !important; }
+html.lenis { scroll-behavior: auto !important; } /* Lenis gère seul la douceur (retour arrière : position rendue tout de suite) */
+.lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
+.lenis.lenis-stopped { overflow: hidden; }
+.lenis.lenis-smooth iframe { pointer-events: none; }
+[data-cible-lien]:focus { outline: none; } /* section atteinte par un lien du menu au clavier */
 
 body {
   margin: 0;
