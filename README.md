@@ -19,8 +19,9 @@ site/                  le site publié
   assets/app.js        le fonctionnement (lecteur vidéo, comparateurs, langues…)
   media/               vidéos et images prêtes pour le web
 scripts/
-  medias_projets.py    médias des projets, vidéo de fond, images de l'À propos et de partage
-  medias_etalonnage.py comparateurs LOG / GRADED et galerie d'étalonnage
+  medias_projets.py    médias des projets, vidéo de fond, images de l'À propos et de partage,
+                       galerie d'étalonnage des projets sans version LOG
+  medias_etalonnage.py comparateurs LOG / GRADED et galerie d'étalonnage de Maroc et Training
 originaux/             vidéos d'origine (jamais publiées)
 deploy.sh              mise en ligne
 ```
@@ -45,7 +46,9 @@ Tout se passe dans **`site/content.js`**, qui est commenté en français :
 - `// À COMPLÉTER` signale une information encore inconnue (description, rôle, catégorie, caméra, profil LOG, Instagram, Vimeo, YouTube…) ;
 - pour réordonner les projets, déplacer un bloc `{ … }` dans la liste `projets` ; pour en retirer un, effacer son bloc.
 
-Exemples : l'Instagram se met dans `contact.instagram`, la description d'un projet dans `description`,
+Exemples : l'Instagram se met dans `contact.instagram` (une adresse, ou une liste d'adresses
+`["https://…", "https://…"]` pour plusieurs comptes ; pareil pour `vimeo` et `youtube`),
+la description d'un projet dans `description`,
 sa catégorie dans `categorie` (`"filmmaking"`, `"editing"` ou `"color"`).
 
 ## Ajouter un projet
@@ -93,6 +96,10 @@ Les comparateurs ont besoin des deux versions du même plan : la version LOG et 
    `analyse planches images videos verif manifeste` ; ajouter `--force` pour refaire un média existant).
 4. Dans `site/content.js`, ajouter les lignes correspondantes dans `comparateurs.images`,
    `comparateurs.videos` et `galerie`.
+
+Image de galerie d'un projet sans version LOG : ajouter `(id, instant, position verticale)` dans
+`GALERIE` en haut de `scripts/medias_projets.py`, lancer `python3 -I scripts/medias_projets.py galerie`
+(image 16:9 `site/media/galerie/<id>-<n>.jpg`), puis l'ajouter dans `galerie` de `site/content.js`.
 
 Règle couleur, essentielle pour un étalonneur : aucun LUT, aucun filtre, aucune correction automatique.
 Les vidéos sont étiquetées BT.709 et les images gardent les valeurs de la vidéo avec le profil sRGB

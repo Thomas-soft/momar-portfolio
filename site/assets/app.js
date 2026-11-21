@@ -257,16 +257,9 @@
     var name = S.nom || h.textContent.trim();
     h.textContent = "";
     h.appendChild(el("span", { class: "sr-only" }, esc(name)));
-    var words = name.split(/\s+/);
-    words.forEach(function (word, wi) {
-      var w = el("span", { class: "w", "aria-hidden": "true" });
-      Array.prototype.forEach.call(word, function (ch, i) {
-        // Polices mélangées : initiale de chaque mot en calligraphie,
-        // et une lettre au milieu du premier mot (comme le « fo » de la référence).
-        var script = i === 0 || (wi === 0 && word.length >= 5 && i === 3);
-        w.appendChild(el("span", { class: "l " + (script ? "l--script" : "l--sans") }, esc(ch)));
-      });
-      h.appendChild(w);
+    // Une seule police (Garamond), un mot par bloc : l'approche des lettres reste intacte.
+    name.split(/\s+/).forEach(function (word) {
+      h.appendChild(el("span", { class: "w", "aria-hidden": "true" }, esc(word)));
     });
     var roles = $("#hero-roles");
     if (roles && Array.isArray(S.roles) && S.roles.length) {
@@ -275,28 +268,15 @@
   }
 
   function animateName() {
-    var letters = $$("#hero-name .l");
-    if (!letters.length || !letters[0].animate) return;
-    if (reduce()) {
-      letters.forEach(function (l) { l.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 700, easing: "ease-out", fill: "backwards" }); });
-      return;
-    }
-    var vw = window.innerWidth, vh = window.innerHeight;
-    var n = letters.length;
-    var maxDelay = 420, dur = 1300; // total ≤ 1,8 s (cahier §2 et §9 : discret)
-    letters.forEach(function (l, i) {
-      var r = l.getBoundingClientRect();
-      var cx = r.left + r.width / 2, cy = r.top + r.height / 2;
-      var tx = (0.06 + Math.random() * 0.88) * vw - cx;
-      var ty = (0.1 + Math.random() * 0.8) * vh - cy;
-      var rot = (Math.random() * 70 - 35).toFixed(1);
-      var sc = (0.5 + Math.random() * 1.1).toFixed(2);
-      var delay = n > 1 ? Math.round((i / (n - 1)) * maxDelay * 0.6 + Math.random() * maxDelay * 0.4) : 0;
-      l.animate([
-        { transform: "translate(" + tx.toFixed(0) + "px," + ty.toFixed(0) + "px) rotate(" + rot + "deg) scale(" + sc + ")", opacity: 0 },
-        { opacity: 1, offset: 0.18 },
-        { transform: "none", opacity: 1 }
-      ], { duration: dur, delay: delay, easing: "cubic-bezier(.2,.75,.12,1)", fill: "backwards" });
+    // Apparition sobre, une seule fois : chaque mot monte légèrement en fondu.
+    // Durée totale ≤ 1,8 s (cahier §2 et §9). Aucune animation avec « réduire les animations ».
+    var words = $$("#hero-name .w");
+    if (!words.length || !words[0].animate || reduce()) return;
+    words.forEach(function (w, i) {
+      w.animate([
+        { transform: "translateY(0.22em)", opacity: 0, letterSpacing: "0.04em" },
+        { transform: "none", opacity: 1, letterSpacing: "-0.01em" }
+      ], { duration: 1300, delay: 120 + i * 260, easing: "cubic-bezier(.2,.7,.1,1)", fill: "backwards" });
     });
   }
 
@@ -325,7 +305,10 @@
         H.classList.add("is-in-nav");
       }, reduce() ? 0 : 650);
     }
-    var fontsReady = (D.fonts && D.fonts.ready) ? D.fonts.ready : Promise.resolve();
+    // On attend la police du nom (EB Garamond), 900 ms au plus, pour ne pas l'animer dans une autre police.
+    var fontsReady = (D.fonts && D.fonts.load)
+      ? D.fonts.load('500 100px "EB Garamond"').then(function () { return D.fonts.ready; })
+      : Promise.resolve();
     Promise.race([fontsReady, wait(900)]).then(go, go);
 
     // Vidéo de fond : jamais avec « réduire les animations » ou « économie de données ».
@@ -1568,6 +1551,22 @@
   /* ------------------------------------------------------------------
      Contact
      ------------------------------------------------------------------ */
+  // Réseaux : chaque champ accepte une adresse ou une liste d'adresses.
+  // Instagram affiche le @compte (utile quand il y en a plusieurs).
+  function socialLinks(c) {
+    var out = [];
+    [["Instagram", c.instagram], ["Vimeo", c.vimeo], ["YouTube", c.youtube]].forEach(function (x) {
+      var urls = Array.isArray(x[1]) ? x[1] : [x[1]];
+      urls.forEach(function (u) {
+        u = (u || "").trim();
+        if (!/^https?:\/\//i.test(u)) return;
+        var m = x[0] === "Instagram" && u.match(/instagram\.com\/([^\/?#]+)/i);
+        out.push({ url: u, name: x[0], handle: m ? "@" + m[1] : "" });
+      });
+    });
+    return out;
+  }
+
   function initContact() {
     var c = S.contact || {};
     var email = c.email || "";
@@ -1584,12 +1583,16 @@
 
     var social = $("#contact-social");
     var list = $("ul", social);
-    var nets = [["Instagram", c.instagram], ["Vimeo", c.vimeo], ["YouTube", c.youtube]].filter(function (x) { return x[1]; });
+    var nets = socialLinks(c);
     if (nets.length) {
-      list.innerHTML = nets.map(function (x) {
-        return '<li><a href="' + esc(x[1]) + '" target="_blank" rel="noopener me">' + esc(x[0]) + "</a></li>";
+      var html = nets.map(function (x) {
+        return '<li><a href="' + esc(x.url) + '" target="_blank" rel="noopener me">' + esc(x.name) +
+          (x.handle ? ' <span class="handle">' + esc(x.handle) + "</span>" : "") + "</a></li>";
       }).join("");
+      list.innerHTML = html;
       social.hidden = false;
+      var foot = $("#foot-social");
+      if (foot) { $("ul", foot).innerHTML = html; foot.hidden = false; }
     }
 
     var form = $("#contact-form");

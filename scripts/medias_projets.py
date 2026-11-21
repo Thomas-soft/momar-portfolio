@@ -11,6 +11,7 @@ medias_projets.py : médias des projets du portfolio de Momar Gaye.
   python3 -I scripts/medias_projets.py fond [--force]               # vidéo de fond de l'accueil + posters
   python3 -I scripts/medias_projets.py posters-fond [--force]       # posters du fond seulement
   python3 -I scripts/medias_projets.py images [--force]             # apropos-1/2.jpg et og.jpg
+  python3 -I scripts/medias_projets.py galerie [--force]            # galerie d'étalonnage des autres projets
   python3 -I scripts/medias_projets.py verifier   # contrôles ffprobe + couleur, écrit travail/medias-projets.json
   python3 -I scripts/medias_projets.py tout [--force]
 
@@ -129,6 +130,23 @@ FOND_POSTERS = {"fond-poster.jpg": (1920, 1080, 82), "fond-poster-720.jpg": (128
 # (1200x630) : (id, instant).
 APROPOS = [("marco", 44.2), ("timeline-1w", 36.5)]
 OG = ("disney", 60.5)
+
+# Galerie d'étalonnage des autres projets (Momar a confirmé le 21/11/2026 avoir étalonné
+# tous ses projets). Images GRADED, autres que posters, miniatures, fond, à propos et og.
+# (id, instant en s, position verticale du recadrage 16:9 dans l'image utile : 0 haut, 0.5 centre, 1 bas)
+# Sortie : site/media/galerie/<id>-<n>.jpg (n compté par projet), 16:9, 1920 px de large
+# au plus, jamais agrandie. Maroc et Training : voir scripts/medias_etalonnage.py.
+GALERIE = [
+    ("marco",       83.250, 0.5),    # ruelle de médina fleurie, jarres, lanterne
+    ("wiss-hyrox",  44.500, 0.15),   # deux athlètes, casquette rouge, Grand Palais
+    ("disney",      75.083, 0.5),    # Orbitron de Discoveryland, ciel bleu canard
+    ("wissem-2",    20.333, 0.5),    # athlète allongé sur le gazon de la salle
+    ("marco",      111.583, 0.5),    # jeune femme sur l'allée rouge, bambous
+    ("timeline-1w", 13.042, 0.9),    # coureur en sweat bleu sur la piste, plein soleil
+    ("timeline-1",  32.333, 0.5),    # deux amis en contre-jour en terrasse
+    ("wiss-hyrox",  51.000, 0.3),    # lancer de medecine-ball sous la verrière
+]
+GALERIE_LARGEUR = 1920
 
 # Débits des intégrales : CRF 22 avec un plafond par projet (fichiers < 95 Mo) ;
 # deux passes à débit moyen si la taille dépasse INTEGRALE_MAX_OCTETS.
@@ -719,6 +737,30 @@ def cmd_images(force=False):
         print("  og.jpg")
 
 
+def galerie_fichiers():
+    """[(ident, instant, position, jpg, crop)] dans l'ordre de GALERIE."""
+    out, compte = [], {}
+    for ident, t, pos in GALERIE:
+        compte[ident] = compte.get(ident, 0) + 1
+        c = cadre_utile(ident)
+        if c["w"] * 9 > c["h"] * 16:       # plus large que 16:9 : on coupe les côtés
+            ch = c["h"] - c["h"] % 2
+            cw = int(round(ch * 16 / 9 / 2)) * 2
+            crop = {"w": cw, "h": ch, "x": c["x"] + (c["w"] - cw) // 2, "y": c["y"]}
+        else:                              # plus haut que 16:9 : on coupe le haut et le bas
+            cw = c["w"] - c["w"] % 2
+            ch = int(round(cw * 9 / 16 / 2)) * 2
+            crop = {"w": cw, "h": ch, "x": c["x"], "y": c["y"] + int(round((c["h"] - ch) * pos))}
+        out.append((ident, t, pos, MEDIA / "galerie" / f"{ident}-{compte[ident]}.jpg", crop))
+    return out
+
+
+def cmd_galerie(force=False):
+    for ident, t, pos, jpg, crop in galerie_fichiers():
+        src = chemin(PROJETS[ident]["fichier"])
+        image(src, t, jpg, min(GALERIE_LARGEUR, crop["w"]), crop=crop, force=force)
+
+
 # ---------------------------------------------------------------------------
 # 6. VÉRIFICATION + MANIFESTE travail/medias-projets.json
 # ---------------------------------------------------------------------------
@@ -790,7 +832,7 @@ def rel_site(f):
 
 def cmd_verifier():
     manif = {"genere_le": time.strftime("%Y-%m-%d %H:%M"), "projets": [], "doublons_ecartes": [],
-             "fond": None, "apropos": [], "og": None, "controles": {}}
+             "fond": None, "apropos": [], "og": None, "galerie": [], "controles": {}}
     problemes = []
     analyse = {}
     # arguments du classement : fichier de travail facultatif, repris dans le manifeste
@@ -893,6 +935,10 @@ def cmd_verifier():
             manif["apropos"].append({**fiche_image(f), "id": ident, "instant": t})
     if (MEDIA / "og.jpg").exists():
         manif["og"] = {**fiche_image(MEDIA / "og.jpg"), "id": OG[0], "instant": OG[1]}
+    for ident, t, pos, f, crop in galerie_fichiers():
+        if f.exists():
+            manif["galerie"].append({**fiche_image(f), "id": ident, "instant": t,
+                                     "recadrage_16_9": crop, "position_verticale": pos})
     # contrôle couleur : PNG vs JPEG sur quelques images
     ech = {}
     for png, jpg in [(PNG / "disney-poster.png", MEDIA / "projets/disney/poster.jpg"),
@@ -900,6 +946,10 @@ def cmd_verifier():
                      (PNG / "og.png", MEDIA / "og.jpg"),
                      (PNG / "accueil-fond-poster.png", MEDIA / "accueil/fond-poster.jpg"),
                      (PNG / "accueil-fond-poster-720.png", MEDIA / "accueil/fond-poster-720.jpg")]:
+        if png.exists() and jpg.exists():
+            ech[rel_site(jpg)] = ecart_png_jpeg(png, jpg)
+    for _i, _t, _p, jpg, _c in galerie_fichiers():
+        png = PNG / f"galerie-{jpg.stem}.png"
         if png.exists() and jpg.exists():
             ech[rel_site(jpg)] = ecart_png_jpeg(png, jpg)
     manif["controles"]["png_vs_jpeg"] = ech
@@ -944,6 +994,8 @@ def main():
         posters_fond(force)
     elif cmd == "images":
         cmd_images(force)
+    elif cmd == "galerie":
+        cmd_galerie(force)
     elif cmd == "verifier":
         cmd_verifier()
     elif cmd == "tout":
@@ -951,6 +1003,7 @@ def main():
         cmd_projets(None, force)
         cmd_fond(force)
         cmd_images(force)
+        cmd_galerie(force)
         cmd_verifier()
     else:
         print(__doc__)

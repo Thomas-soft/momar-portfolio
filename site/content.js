@@ -71,7 +71,7 @@ window.SITE = {
       id: "wiss-hyrox",
       titre: { fr: "Wiss Hyrox", en: "Wiss Hyrox" },
       categorie: "",                    // À COMPLÉTER
-      role: { fr: "", en: "" },         // À COMPLÉTER
+      role: { fr: "Étalonnage", en: "Color grading" },  // étalonnage confirmé par Momar (21/11/2026) ; autres rôles : À COMPLÉTER
       description: { fr: "", en: "" },  // À COMPLÉTER
       client: "",                       // À COMPLÉTER
       annee: "",                        // À COMPLÉTER
@@ -89,7 +89,7 @@ window.SITE = {
       id: "timeline-1w",
       titre: { fr: "Timeline 1w", en: "Timeline 1w" },
       categorie: "",                    // À COMPLÉTER
-      role: { fr: "", en: "" },         // À COMPLÉTER
+      role: { fr: "Étalonnage", en: "Color grading" },  // étalonnage confirmé par Momar (21/11/2026) ; autres rôles : À COMPLÉTER
       description: { fr: "", en: "" },  // À COMPLÉTER
       client: "",                       // À COMPLÉTER
       annee: "",                        // À COMPLÉTER
@@ -107,7 +107,7 @@ window.SITE = {
       id: "disney",
       titre: { fr: "Disney", en: "Disney" },
       categorie: "",                    // À COMPLÉTER
-      role: { fr: "", en: "" },         // À COMPLÉTER
+      role: { fr: "Étalonnage", en: "Color grading" },  // étalonnage confirmé par Momar (21/11/2026) ; autres rôles : À COMPLÉTER
       description: { fr: "", en: "" },  // À COMPLÉTER
       client: "",                       // À COMPLÉTER
       annee: "",                        // À COMPLÉTER
@@ -125,7 +125,7 @@ window.SITE = {
       id: "wissem-2",
       titre: { fr: "Wissem 2", en: "Wissem 2" },
       categorie: "",                    // À COMPLÉTER
-      role: { fr: "", en: "" },         // À COMPLÉTER
+      role: { fr: "Étalonnage", en: "Color grading" },  // étalonnage confirmé par Momar (21/11/2026) ; autres rôles : À COMPLÉTER
       description: { fr: "", en: "" },  // À COMPLÉTER
       client: "",                       // À COMPLÉTER
       annee: "",                        // À COMPLÉTER
@@ -143,7 +143,7 @@ window.SITE = {
       id: "timeline-1",
       titre: { fr: "Timeline 1", en: "Timeline 1" },
       categorie: "",                    // À COMPLÉTER
-      role: { fr: "", en: "" },         // À COMPLÉTER
+      role: { fr: "Étalonnage", en: "Color grading" },  // étalonnage confirmé par Momar (21/11/2026) ; autres rôles : À COMPLÉTER
       description: { fr: "", en: "" },  // À COMPLÉTER
       client: "",                       // À COMPLÉTER
       annee: "",                        // À COMPLÉTER
@@ -161,7 +161,7 @@ window.SITE = {
       id: "marco",
       titre: { fr: "Marco", en: "Marco" },
       categorie: "",                    // À COMPLÉTER
-      role: { fr: "", en: "" },         // À COMPLÉTER
+      role: { fr: "Étalonnage", en: "Color grading" },  // étalonnage confirmé par Momar (21/11/2026) ; autres rôles : À COMPLÉTER
       description: { fr: "", en: "" },  // À COMPLÉTER
       client: "",                       // À COMPLÉTER
       annee: "",                        // À COMPLÉTER
@@ -179,7 +179,7 @@ window.SITE = {
       id: "maroc",
       titre: { fr: "Maroc", en: "Maroc" },
       categorie: "color",               // projet d'étalonnage (versions LOG et GRADED fournies)
-      role: { fr: "Étalonnage", en: "Colorist" },
+      role: { fr: "Étalonnage", en: "Color grading" },
       description: { fr: "", en: "" },  // À COMPLÉTER
       client: "",                       // À COMPLÉTER
       annee: "",                        // À COMPLÉTER
@@ -197,7 +197,7 @@ window.SITE = {
       id: "training",
       titre: { fr: "Training", en: "Training" },
       categorie: "color",               // projet d'étalonnage (versions LOG et GRADED fournies)
-      role: { fr: "Étalonnage", en: "Colorist" },
+      role: { fr: "Étalonnage", en: "Color grading" },
       description: { fr: "", en: "" },  // À COMPLÉTER
       client: "",                       // À COMPLÉTER
       annee: "",                        // À COMPLÉTER
@@ -242,7 +242,8 @@ window.SITE = {
   },
 
   /* ---------- Galerie d'étalonnage ----------
-     Seulement des images que Momar a étalonnées (Maroc et Training pour l'instant).
+     Seulement des images que Momar a étalonnées (il a confirmé le 21/11/2026 avoir fait
+     l'étalonnage de tous ses projets).
      Tous les champs d'information sont facultatifs : vide = non affiché.
        image      chemin de l'image (export sRGB)
        projet     id du projet
@@ -251,11 +252,21 @@ window.SITE = {
        direction  direction artistique, { fr, en }
        logiciel   logiciel d'étalonnage
        ratio      format de l'image */
+  // Ordre = ordre d'affichage. Images des projets sans LOG : scripts/medias_projets.py (GALERIE) ;
+  // Maroc et Training : scripts/medias_etalonnage.py. Caméra, profil LOG, direction : À COMPLÉTER.
   galerie: [
+    { image: "media/galerie/marco-1.jpg", projet: "marco", camera: "", profilLog: "", direction: { fr: "", en: "" }, logiciel: "DaVinci Resolve Studio", ratio: "16/9" }, // ruelle de médina (83,25 s)
     { image: "media/galerie/maroc-1.jpg", projet: "maroc", camera: "", profilLog: "", direction: { fr: "", en: "" }, logiciel: "DaVinci Resolve Studio", ratio: "16/9" }, // caméra, profil LOG, direction : À COMPLÉTER
+    { image: "media/galerie/wiss-hyrox-1.jpg", projet: "wiss-hyrox", camera: "", profilLog: "", direction: { fr: "", en: "" }, logiciel: "DaVinci Resolve Studio", ratio: "16/9" }, // athlètes au Grand Palais (44,5 s)
+    { image: "media/galerie/disney-1.jpg", projet: "disney", camera: "", profilLog: "", direction: { fr: "", en: "" }, logiciel: "DaVinci Resolve Studio", ratio: "16/9" }, // Orbitron de Discoveryland (75,08 s)
     { image: "media/galerie/training-1.jpg", projet: "training", camera: "", profilLog: "", direction: { fr: "", en: "" }, logiciel: "DaVinci Resolve Studio", ratio: "16/9" }, // caméra, profil LOG, direction : À COMPLÉTER
+    { image: "media/galerie/marco-2.jpg", projet: "marco", camera: "", profilLog: "", direction: { fr: "", en: "" }, logiciel: "DaVinci Resolve Studio", ratio: "16/9" }, // allée rouge et bambous (111,58 s)
     { image: "media/galerie/maroc-2.jpg", projet: "maroc", camera: "", profilLog: "", direction: { fr: "", en: "" }, logiciel: "DaVinci Resolve Studio", ratio: "16/9" }, // caméra, profil LOG, direction : À COMPLÉTER
-    { image: "media/galerie/training-2.jpg", projet: "training", camera: "", profilLog: "", direction: { fr: "", en: "" }, logiciel: "DaVinci Resolve Studio", ratio: "16/9" }  // caméra, profil LOG, direction : À COMPLÉTER
+    { image: "media/galerie/wissem-2-1.jpg", projet: "wissem-2", camera: "", profilLog: "", direction: { fr: "", en: "" }, logiciel: "DaVinci Resolve Studio", ratio: "16/9" }, // athlète allongé dans la salle (20,33 s)
+    { image: "media/galerie/timeline-1w-1.jpg", projet: "timeline-1w", camera: "", profilLog: "", direction: { fr: "", en: "" }, logiciel: "DaVinci Resolve Studio", ratio: "16/9" }, // coureur sur la piste (13,04 s)
+    { image: "media/galerie/training-2.jpg", projet: "training", camera: "", profilLog: "", direction: { fr: "", en: "" }, logiciel: "DaVinci Resolve Studio", ratio: "16/9" }, // caméra, profil LOG, direction : À COMPLÉTER
+    { image: "media/galerie/timeline-1-1.jpg", projet: "timeline-1", camera: "", profilLog: "", direction: { fr: "", en: "" }, logiciel: "DaVinci Resolve Studio", ratio: "16/9" }, // contre-jour en terrasse (32,33 s)
+    { image: "media/galerie/wiss-hyrox-2.jpg", projet: "wiss-hyrox", camera: "", profilLog: "", direction: { fr: "", en: "" }, logiciel: "DaVinci Resolve Studio", ratio: "16/9" }  // medecine-ball sous la verrière (51 s)
   ],
 
   /* ---------- À propos ----------
@@ -283,11 +294,16 @@ window.SITE = {
 
   /* ---------- Contact ----------
      Un champ vide n'est pas affiché.
+     instagram, vimeo, youtube : une adresse, ou une liste d'adresses (affichées dans cet ordre,
+       dans le contact et le pied de page). Pour Instagram, le @compte est tiré de l'adresse.
      formEndpoint : adresse d'un service d'envoi (Formspree, FormSubmit…).
        Vide = le formulaire ouvre la messagerie du visiteur avec le message prérempli. */
   contact: {
     email: "momar.95@live.fr",
-    instagram: "",    // À COMPLÉTER, ex. "https://www.instagram.com/…"
+    instagram: [      // envoyés par Momar le 21/11/2026
+      "https://www.instagram.com/mo.shoooter",
+      "https://www.instagram.com/momar.9"
+    ],
     vimeo: "",        // À COMPLÉTER, ex. "https://vimeo.com/…"
     youtube: "",      // À COMPLÉTER, ex. "https://www.youtube.com/@…"
     formEndpoint: ""  // À COMPLÉTER plus tard, ex. "https://formspree.io/f/xxxxxxx"
