@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://thomas-soft.github.io/momar-portfolio/sitemap.xml

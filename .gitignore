@@ -1,0 +1,15 @@
+# Dépôt PUBLIC : liste blanche. Tout est ignoré sauf ce qui est autorisé ci-dessous.
+# Ne jamais retirer ces lignes : originaux/, references/, travail/, ETAT.md, le prompt,
+# .playwright-mcp/ (captures de test) restent privés.
+/*
+!/.gitignore
+!/.github/
+!/site/
+!/scripts/
+!/README.md
+!/deploy.sh
+# Même dans les dossiers autorisés :
+*.mov
+*.MOV
+__pycache__/
+.DS_Store

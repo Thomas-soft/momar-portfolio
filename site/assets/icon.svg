@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!-- Icône : un cercle coupé par une barre fine, comme le comparateur LOG / GRADED -->
+  <rect width="64" height="64" rx="14" fill="#080808"/>
+  <circle cx="32" cy="32" r="17" fill="none" stroke="#f3f1ee" stroke-width="2.5"/>
+  <path d="M32 15a17 17 0 0 1 0 34z" fill="#f3f1ee"/>
+  <rect x="31" y="9" width="2" height="46" fill="#f3f1ee"/>
+</svg>
