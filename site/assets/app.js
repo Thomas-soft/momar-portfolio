@@ -281,16 +281,27 @@
     initNav.closeMenu = closeMenu;
     window.addEventListener("resize", function () { if (window.innerWidth > 860) closeMenu(false); });
 
-    var ticking = false;
+    // Téléphone et tablette (menu burger) : le menu se cache quand on descend
+    // pour laisser toute la place au contenu, et revient dès qu'on remonte.
+    var ticking = false, lastY = window.scrollY;
+    function setNavHidden(on) { nav.classList.toggle("is-hidden", on); }
     function onScroll() {
       if (ticking) return;
       ticking = true;
       requestAnimationFrame(function () {
-        nav.classList.toggle("is-scrolled", window.scrollY > 40);
+        var y = window.scrollY, d = y - lastY;
+        nav.classList.toggle("is-scrolled", y > 40);
+        if (window.innerWidth > 860 || y < 120 || !menu.hidden || nav.contains(document.activeElement)) {
+          setNavHidden(false); lastY = y;
+        } else if (Math.abs(d) > 10) {
+          setNavHidden(d > 0); lastY = y;
+        }
         ticking = false;
       });
     }
     window.addEventListener("scroll", onScroll, { passive: true });
+    nav.addEventListener("focusin", function () { setNavHidden(false); });
+    window.addEventListener("resize", onScroll);
     onScroll();
 
     if ("IntersectionObserver" in window) {
@@ -1581,7 +1592,7 @@
     var imgs = (ap.images || []).filter(function (x) { return x && x.src; }).slice(0, 2);
     if (!imgs.length) { col.hidden = true; return; }
     var prints = imgs.map(function (im, i) {
-      var f = el("figure", { class: "print print--" + (i + 1) });
+      var f = el("figure", { class: "print print--" + (i + 1) + (im.forme === "portrait" ? " print--portrait" : "") });
       f.innerHTML = '<img alt="" loading="lazy" decoding="async">' + (filled(im.legende) ? "<figcaption>" + esc(L(im.legende)) + "</figcaption>" : "");
       var img = $("img", f);
       img.addEventListener("error", function () { f.remove(); });

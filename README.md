@@ -50,6 +50,11 @@ Exemples : l'Instagram se met dans `contact.instagram` (une adresse, ou une list
 `["https://…", "https://…"]` pour plusieurs comptes ; pareil pour `vimeo` et `youtube`),
 la description d'un projet dans `description`,
 sa catégorie dans `categorie` (`"filmmaking"`, `"editing"` ou `"color"`).
+Photo de Momar dans l'À propos : `apropos.images` (2 images, la 2e passe devant ; `forme: "portrait"`
+pour une photo en hauteur). Showreel : `showreel.video` et `showreel.poster` ; vides = « Showreel — bientôt ».
+Le showreel actuel (monté par Claude le 25/11/2026) se refait avec `scripts/medias_showreel.py`
+(liste des plans en haut du fichier) ; pour mettre celui de Momar, remplacer `site/media/showreel/showreel.mp4`.
+Sur téléphone et tablette, le menu se cache quand on descend et revient quand on remonte.
 Défilement fluide (Lenis, licence MIT, copié dans `site/assets/vendor/lenis.min.js`) : `smoothScroll: true`
 dans `content.js` ; `false` pour revenir au défilement normal du navigateur.
 

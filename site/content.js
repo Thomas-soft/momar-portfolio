@@ -38,12 +38,14 @@ window.SITE = {
   },
 
   /* ---------- Showreel (30 à 60 s) ----------
-     Vide pour l'instant : le site affiche « Showreel — bientôt ».
-     Pour l'activer : mettre le chemin de la vidéo et de son image. */
+     Monté par Claude le 25/11/2026 avec les meilleurs plans des 8 projets (57 s, musique
+     Pixabay libre de droits). Refaire : scripts/medias_showreel.py. Pour mettre celui de Momar :
+     remplacer le fichier (ou changer le chemin). Vider les deux champs = « Showreel — bientôt ». */
   showreel: {
-    video: "",  // À COMPLÉTER, ex. "media/showreel/showreel.mp4"
-    poster: "", // À COMPLÉTER, ex. "media/showreel/poster.jpg"
-    ratio: "16/9"
+    video: "media/showreel/showreel.mp4",
+    poster: "media/showreel/poster.jpg",
+    ratio: "16/9",
+    audio: true
   },
 
   /* ---------- Réalisations (Selected Work) ----------
@@ -288,10 +290,12 @@ window.SITE = {
         "I'm looking to collaborate with brands, creators, directors, agencies and production companies."
       ]
     },
-    // Deux photogrammes pour le collage. "legende" = petit mot calligraphié (facultatif).
+    // Deux images pour le collage (la 2e passe devant). "legende" = petit mot calligraphié (facultatif).
+    // forme: "portrait" pour une photo en hauteur (sinon image en largeur).
+    // Ancienne 2e image, gardée dans media/ : "media/apropos-2.jpg" (photogramme de Timeline 1w, 36,5 s).
     images: [
       { src: "media/apropos-1.jpg", legende: "Marco" },       // photogramme de Marco (44,2 s)
-      { src: "media/apropos-2.jpg", legende: "Timeline 1w" }  // photogramme de Timeline 1w (36,5 s)
+      { src: "media/apropos-portrait.jpg", legende: "Momar", forme: "portrait" }  // photo envoyée par Momar le 25/11/2026, recadrée 4:5 (731 × 914)
     ]
   },
 

@@ -935,6 +935,9 @@ p, h1, h2, h3, dl, dd, figure { margin: 0; }
 .print--1 figcaption { left: 4%; bottom: -1.5em; }
 .print--2 { width: 62%; right: 0; bottom: 4%; --r: 4.5deg; transform: rotate(var(--r)); z-index: 2; }
 .print--2 figcaption { right: 4%; bottom: -1.5em; }
+/* Photo en hauteur (portrait de Momar) : plus étroite, posée devant en bas à droite. */
+.print--portrait { width: 55%; }
+.print--1.print--portrait { width: 56%; }
 .about__body p {
   font-size: clamp(17px, 1.45vw, 22px); line-height: 1.6; color: var(--fg-2); max-width: 44ch;
 }
@@ -1167,6 +1170,8 @@ p, h1, h2, h3, dl, dd, figure { margin: 0; }
   .nav { left: 16px; right: 16px; transform: none; justify-content: space-between; padding: 0 6px 0 8px; }
   .nav__links, .nav__lang { display: none; }
   .nav__burger { display: inline-flex; }
+  .nav, .is-in-nav .nav { transition: background-color 0.4s var(--ease), border-color 0.4s var(--ease), opacity 0.9s var(--ease), transform 0.45s var(--ease); }
+  .nav.is-hidden { transform: translateY(calc(-100% - 24px)); }
   .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .card, .card--l, .card--s { grid-column: span 1; align-self: start; }
   .card--wide { grid-column: 1 / -1; }
@@ -1190,7 +1195,10 @@ p, h1, h2, h3, dl, dd, figure { margin: 0; }
   .grid { grid-template-columns: minmax(0, 1fr); gap: 56px; }
   .card, .card--l, .card--s, .card--wide { grid-column: 1 / -1; }
   .card--wide .card__media { aspect-ratio: 16 / 9; }
-  .card__cue { opacity: 1; transform: none; }
+  /* Au doigt : un simple rond « lecture » sur l'image ; le texte « Voir le projet » reste sous le titre. */
+  .card__cue { opacity: 1; transform: none; width: 44px; height: 44px; padding: 0; justify-content: center; }
+  .card__cue span { display: none; }
+  .card__cue svg { width: 13px; height: 13px; margin-left: 2px; }
   .gallery { grid-template-columns: minmax(0, 1fr); gap: 28px; }
   .gallery__item, .gallery__item:first-child { grid-column: 1 / -1; }
   .hero__name { font-size: clamp(60px, 25vw, 132px); line-height: 0.9; white-space: normal; }
@@ -1233,4 +1241,5 @@ p, h1, h2, h3, dl, dd, figure { margin: 0; }
   .cmp.is-anim { transition-duration: 0.2s; }
   .project__inner { transition: opacity 0.2s linear; }
   .project.is-switching .project__inner { transform: none; }
+  .nav, .is-in-nav .nav { transition: opacity 0.4s linear; }
 }
