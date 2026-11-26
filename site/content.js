@@ -75,7 +75,7 @@ window.SITE = {
     {
       id: "wiss-hyrox",
       titre: { fr: "Wiss Hyrox", en: "Wiss Hyrox" },
-      categorie: "",                    // À COMPLÉTER
+      categorie: ["filmmaking", "editing", "color"],  // déduit du rôle (vocal 25/11)
       role: { fr: "Réalisation, montage, étalonnage", en: "Director, editor, colorist" },  // vocal de Momar 25/11/2026 22:59 : « monteur, étalonneur et réalisateur sur chaque projet »
       description: { fr: "", en: "" },  // À COMPLÉTER
       client: "",                       // À COMPLÉTER
@@ -93,7 +93,7 @@ window.SITE = {
     {
       id: "timeline-1w",
       titre: { fr: "Timeline 1w", en: "Timeline 1w" },
-      categorie: "",                    // À COMPLÉTER
+      categorie: ["filmmaking", "editing", "color"],  // déduit du rôle (vocal 25/11)
       role: { fr: "Réalisation, montage, étalonnage", en: "Director, editor, colorist" },  // vocal de Momar 25/11/2026 22:59 : « monteur, étalonneur et réalisateur sur chaque projet »
       description: { fr: "", en: "" },  // À COMPLÉTER
       client: "",                       // À COMPLÉTER
@@ -111,7 +111,7 @@ window.SITE = {
     {
       id: "disney",
       titre: { fr: "Disney", en: "Disney" },
-      categorie: "",                    // À COMPLÉTER
+      categorie: ["filmmaking", "editing", "color"],  // déduit du rôle (vocal 25/11)
       role: { fr: "Réalisation, montage, étalonnage", en: "Director, editor, colorist" },  // vocal de Momar 25/11/2026 22:59 : « monteur, étalonneur et réalisateur sur chaque projet »
       description: { fr: "", en: "" },  // À COMPLÉTER
       client: "",                       // À COMPLÉTER
@@ -129,7 +129,7 @@ window.SITE = {
     {
       id: "wissem-2",
       titre: { fr: "Wissem 2", en: "Wissem 2" },
-      categorie: "",                    // À COMPLÉTER
+      categorie: ["filmmaking", "editing", "color"],  // déduit du rôle (vocal 25/11)
       role: { fr: "Réalisation, montage, étalonnage", en: "Director, editor, colorist" },  // vocal de Momar 25/11/2026 22:59 : « monteur, étalonneur et réalisateur sur chaque projet »
       description: { fr: "", en: "" },  // À COMPLÉTER
       client: "",                       // À COMPLÉTER
@@ -147,7 +147,7 @@ window.SITE = {
     {
       id: "timeline-1",
       titre: { fr: "Timeline 1", en: "Timeline 1" },
-      categorie: "",                    // À COMPLÉTER
+      categorie: ["filmmaking", "editing", "color"],  // déduit du rôle (vocal 25/11)
       role: { fr: "Réalisation, montage, étalonnage", en: "Director, editor, colorist" },  // vocal de Momar 25/11/2026 22:59 : « monteur, étalonneur et réalisateur sur chaque projet »
       description: { fr: "", en: "" },  // À COMPLÉTER
       client: "",                       // À COMPLÉTER
@@ -165,7 +165,7 @@ window.SITE = {
     {
       id: "marco",
       titre: { fr: "Marco", en: "Marco" },
-      categorie: "",                    // À COMPLÉTER
+      categorie: ["filmmaking", "editing", "color"],  // déduit du rôle (vocal 25/11)
       role: { fr: "Réalisation, montage, étalonnage", en: "Director, editor, colorist" },  // vocal de Momar 25/11/2026 22:59 : « monteur, étalonneur et réalisateur sur chaque projet »
       description: { fr: "", en: "" },  // À COMPLÉTER
       client: "",                       // À COMPLÉTER
@@ -183,7 +183,7 @@ window.SITE = {
     {
       id: "maroc",
       titre: { fr: "Maroc", en: "Maroc" },
-      categorie: "color",               // projet d'étalonnage (versions LOG et GRADED fournies)
+      categorie: ["filmmaking", "editing", "color"],  // déduit du rôle (vocal 25/11) ; versions LOG et GRADED fournies
       role: { fr: "Réalisation, montage, étalonnage", en: "Director, editor, colorist" },  // vocal de Momar 25/11/2026 22:59
       description: { fr: "", en: "" },  // À COMPLÉTER
       client: "",                       // À COMPLÉTER
@@ -201,7 +201,7 @@ window.SITE = {
     {
       id: "training",
       titre: { fr: "Training", en: "Training" },
-      categorie: "color",               // projet d'étalonnage (versions LOG et GRADED fournies)
+      categorie: ["filmmaking", "editing", "color"],  // déduit du rôle (vocal 25/11) ; versions LOG et GRADED fournies
       role: { fr: "Réalisation, montage, étalonnage", en: "Director, editor, colorist" },  // vocal de Momar 25/11/2026 22:59
       description: { fr: "", en: "" },  // À COMPLÉTER
       client: "",                       // À COMPLÉTER
